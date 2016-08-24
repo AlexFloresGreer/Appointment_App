@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Appointment</title>
+   {%load staticfiles%}
+  <link rel="stylesheet" href="{% static 'demoapp/css/demo.css' %}">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+  	<a href='/appointments'>Dashboard</a> | <a href='/'>Logout</a>
+    <h1>Update Information</h1>
+    {% for task in updates%}
+    <form action = '/{{task.id}}' method = 'post'>
+        {% csrf_token %}
+        Tasks:<p><input type='text' name='task' value='{{task.task}}'></p>
+        Status:
+        <p><select name='status'>
+            <option value='pending'>pending</option>
+            <option value='done'>done</option>
+            <option value='missed'>missed</option>
+        </select></p>
+        Date: <p><input type='date' name='appdate' value="{{task.date|date:'Y-m-d'}}"></p>
+        Time: <p><input type='time' name='time' value="{{task.time|time:'H:i'}}"></p>
+        <input type='submit' value='Update'>
+      </form>
+      {% endfor %}
+      {% if messages %}
+        {% for msg in messages %}
+          <p class='green'>{{msg.message}}</p>
+        {% endfor %}
+      {% endif %}
+</body>
+</html>

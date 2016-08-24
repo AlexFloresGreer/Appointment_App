@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>What's Up</title>
+    {%load staticfiles%}
+    <link rel="stylesheet" href="{% static 'remainderapp/css/demo.css' %}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <body>
+    <a href="/logout">Logout</a>
+    </form>
+    <h2>Hello {{request.session.user}}</h2><br>
+    <h3>Here are your appointments for today, {{today}} </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tasks</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for task in today_appt %}
+          <tr>
+          <td>{{task.task}}</td>
+          <td>{{task.time}} </td>
+          <td>{{task.status}} </td>
+          {% if task.status == 'pending' or task.status == 'missed' %}
+          <td><a href="/appointments/{{task.id}}">Edit</a> | <a href='/delete/{{task.id}}'>Delete</a></td>
+          {%else%}
+          <td></td>
+          {% endif %}
+          </tr>
+        {%endfor %}
+        <br>
+        </tbody>
+      <table>
+     <thead>
+     <br>
+    <h3>Your other appointments</h3><br>
+      <tr>
+        <th>Task</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+     {%for task in future_appt %}
+          <tr>
+          <td>{{task.task}}</a></td>
+          <td>{{task.date}}</td>
+          <td>{{task.time}}</td>
+          </tr>
+        {%endfor %}
+     <table>
+     <thead>
+     <br><br>
+   <form action='/addappointment' method='post'>
+          {% csrf_token %}
+          Date: <input type='date' name='appdate'><br><br>
+          Time: <input type="time" name="time"><br><br>
+          Task: <input type="text" name="task"><br><br>
+          <input type="submit" value="Add">
+  </form>
+    {% if messages %}
+        {% for msg in messages %}
+          {%if 'regtag' in msg.tags%}
+          <p class='green'>{{msg.message}}</p>
+          {%endif%}
+        {% endfor %}
+      {% endif %}
+  </div>
+  </body>
+</html>

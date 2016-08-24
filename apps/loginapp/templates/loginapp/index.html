@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login/Registration </title>
+    {%load staticfiles%}
+  <link rel="stylesheet" href="{% static 'loginapp/css/loginreg.css' %}">
+  <body>
+      <h3>Welcome</h3>
+      <h3>Register</h3>
+      <form action='/registration' method='post'>
+          {% csrf_token %}
+          First Name: <input type='text' name='name'><br><br>
+          User Name: <input type="text" name="username"><br><br>
+          Password: <input type="password" name="password"><br><br>
+          <p>*password should be at least 6 characters</p><br>
+          Confirm-Password:<input type="password" name="confirm_password"><br><br>
+          Birthdate:<input type="date" name="birthday"><br><br>
+          <input type="submit" value="submit">
+      </form>
+      <!-- Regtags -->
+      {% if messages %}
+        {% for msg in messages %}
+          {%if 'regtag' in msg.tags%}
+          <p class='green'>{{msg.message}}</p>
+          {%endif%}
+        {% endfor %}
+      {% endif %}
+      <h3>LOGIN</h3>
+      <form action='/login' method='post'>
+          {% csrf_token %}
+          Username: <input type="text" name="username"><br><br>
+          Password: <input type="password" name="password"><br><br>
+          <input type="submit" value="login">
+      </form>
+  <!-- LOGTAGS -->
+    {% if messages %}
+          {% for msg in messages %}
+            {% if 'logtag' in msg.tags%}
+              <p class="mess">{{msg.message}}</p>
+            {%endif%}
+          {% endfor %}
+    {% endif %}
+    </body>
+</html>
